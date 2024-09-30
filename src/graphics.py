@@ -2,7 +2,7 @@ import ctypes
 import pygame
 
 class Window:
-    m_info = set(("squares", "circles"))
+    m_info = set(("empty_squares", "filled_squares", "circles"))
     
     def __init__(self, width: int, height: int, rows: int, columns: int, how: str,
                  background: tuple = (0, 0, 0), individual_color: tuple = (255, 255, 255),
@@ -45,10 +45,15 @@ class Window:
                 return False
         return True
     
-    def draw_squares(self, grid: set) -> None:
+    def draw_empty_squares(self, grid: set) -> None:
         for pos in grid:
             pygame.draw.rect(self.window, self.individual_color,
                              pygame.Rect(self.back_grid[pos], (self.cell_width - 1, self.cell_height - 1)), 2)
+    
+    def draw_filled_squares(self, grid: set) -> None:
+        for pos in grid:
+            pygame.draw.rect(self.window, self.individual_color,
+                             pygame.Rect(self.back_grid[pos], (self.cell_width, self.cell_height)))
     
     def draw_circles(self, grid: set) -> None:
         offset = ((self.cell_width // 2), (self.cell_height // 2))

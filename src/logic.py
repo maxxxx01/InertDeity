@@ -203,13 +203,17 @@ class Grid:
                             "Rings 'n' Slugs", "Vote"]}
     
     def __init__(self, rows: int, columns: int, neighbors: str = "square", breadth: int = 1, has_center: bool = False,
-                 formula: str = "Conway's Life"):
+                 formula: str = None, birth_conditions = None, survival_conditions = None):
         self.rows = rows
         self.columns = columns
         self.random_grid(rows, columns)
         
         self.neighbors = Neighbors.get_neighbors(rows, columns, neighbors, breadth, has_center)
-        self.set_formula(formula)
+        
+        if formula:
+            self.set_formula(formula)
+        if (birth_conditions and survival_conditions):
+            self.set_personalized_formula(birth_conditions, survival_conditions)
         
         self.updates = 0
         
@@ -248,6 +252,7 @@ class Grid:
         return len(self.grid)
     
     def set_formula(self, formula: str) -> None:
+        # Life-like rules
         match formula:
             case "AntiLife":
                 self.formula = {"B": [0, 1, 2, 3, 4, 7, 8], "S": [0, 1, 2, 3, 4, 6, 7, 8]}
@@ -457,6 +462,9 @@ class Grid:
                 self.formula = {"B": [5, 6], "S": [1, 4, 5, 6, 8]}
             case "Vote":
                 self.formula = {"B": [5, 6, 7, 8], "S": [4, 5, 6, 7, 8]}
+    
+    def set_personalized_formula(self, birth_conditions: list, survival_conditions: list) -> None:
+        self.formula = {"B": birth_conditions, "S": survival_conditions}
     
     def get_updates(self) -> int:
         return self.updates
