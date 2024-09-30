@@ -2,8 +2,8 @@ from graphics import Window
 from logic import Grid
 
 def preparation() -> (Window, Grid):
-    grid = Grid(50, 50, "circle", 2)
-    window = Window(1080, 640, grid.get_rows(), grid.get_columns(), "circles")
+    grid = Grid(50, 50)
+    window = Window(1080, 640, grid.get_rows(), grid.get_columns(), "squares")
     
     return window, grid
 
